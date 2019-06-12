@@ -34,7 +34,9 @@ export function restrictPosition(position, imageSize, cropSize, zoom) {
 
 function restrictPositionCoord(position, imageSize, cropSize, zoom) {
   const maxPosition = (imageSize * zoom) / 2 - cropSize / 2
-  return Math.min(maxPosition, Math.max(position, -maxPosition))
+  const imageFillsCropArea = imageSize * zoom >= cropSize
+  // if the image does not fill the crop area, center it
+  return Math.min(imageFillsCropArea ? maxPosition : 0, Math.max(position, -maxPosition))
 }
 
 export function getDistanceBetweenPoints(pointA, pointB) {
